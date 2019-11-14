@@ -1,25 +1,25 @@
 // Preloader
 
-  $(window).load(function(){
-        $('.loader').fadeOut();    
-        $('#preloader').delay(350).fadeOut('slow');    
-        $('body').delay(350);   
+$(window).load(function () {
+    $('.loader').fadeOut();
+    $('#preloader').delay(350).fadeOut('slow');
+    $('body').delay(350);
 
-    });
+});
 
 // Global document ready function
 
-jQuery(document).ready(function($) {
-     // "use strict";
+jQuery(document).ready(function ($) {
+    // "use strict";
     //check if background-images have been loaded and show single pages
     $('.single-page').bgLoaded({
-        afterLoaded: function() {
+        afterLoaded: function () {
             showCaption($('.page-container .single-page').eq(0));
         }
     });
 
     //open page
-    $('.single-page').on('click', function() {
+    $('.single-page').on('click', function () {
         var selectedProject = $(this),
             toggle = !selectedProject.hasClass('is-full-width');
         if (toggle) toggleProject($(this), $('.page-container'), toggle);
@@ -27,20 +27,20 @@ jQuery(document).ready(function($) {
     });
 
     //close page
-    $('.page-container .page-close').on('click', function() {
+    $('.page-container .page-close').on('click', function () {
         toggleProject($('.is-full-width'), $('.page-container'), false);
 
     });
 
     //scroll to page info
-    $('.page-container .page-scroll').on('click', function() {
+    $('.page-container .page-scroll').on('click', function () {
         $('.page-container').animate({
             'scrollTop': $(window).height()
         }, 500);
     });
 
     //update title and .page-scroll opacity while scrolling
-    $('.page-container').on('scroll', function() {
+    $('.page-container').on('scroll', function () {
         window.requestAnimationFrame(changeOpacity);
     });
 
@@ -58,13 +58,13 @@ jQuery(document).ready(function($) {
             //fade out page
             project.animate({
                 opacity: 0
-            }, 800, function() {
+            }, 800, function () {
                 project.removeClass('is-loaded');
                 $('.page-container').find('.page-scroll').attr('style', '');
-                setTimeout(function() {
+                setTimeout(function () {
                     project.attr('style', '').removeClass('is-full-width').find('.page-title').attr('style', '');
                 }, delay);
-                setTimeout(function() {
+                setTimeout(function () {
                     showCaption($('.page-container .single-page').eq(0));
                 }, 300);
             });
@@ -79,7 +79,7 @@ jQuery(document).ready(function($) {
 
     function showCaption(project) {
         if (project.length > 0) {
-            setTimeout(function() {
+            setTimeout(function () {
                 project.addClass('is-loaded');
                 showCaption(project.next());
             }, 150);
@@ -169,11 +169,11 @@ jQuery(document).ready(function($) {
     };
 
     var offset = 0;
-    $.each(data, function(key, data) {
+    $.each(data, function (key, data) {
         var canvas = document.querySelector('#' + key);
         if (canvas) {
             offset += 250;
-            setTimeout(function() {
+            setTimeout(function () {
                 var ctx = canvas.getContext('2d');
                 var chart = new Chart(ctx);
                 chart.Doughnut(data, options);
@@ -189,8 +189,8 @@ jQuery(document).ready(function($) {
     map = new GMaps({
         position: "TOP_CENTER",
         el: '#map',
-        lat: 23.790223,
-        lng: 90.414036,
+        lat: 32.7763,
+        lng: -96.7969,
         zoom: 13,
         zoomControl: true,
         zoomControlOpt: {
@@ -213,7 +213,7 @@ jQuery(document).ready(function($) {
 
     // Contact Form
 
-    $('form#contactForm button.submit').click(function() {
+    $('form#contactForm button.submit').click(function () {
 
         $('#image-loader').fadeIn();
 
@@ -228,7 +228,7 @@ jQuery(document).ready(function($) {
             type: "POST",
             url: "inc/sendEmail.php",
             data: data,
-            success: function(msg) {
+            success: function (msg) {
 
                 // Message was sent
                 if (msg == 'OK') {
@@ -260,13 +260,13 @@ jQuery(document).ready(function($) {
  * Copyright (c) 2014 Jonathan Catmull
  * Licensed under the MIT license.
  */
-(function($) {
-    $.fn.bgLoaded = function(custom) {
+(function ($) {
+    $.fn.bgLoaded = function (custom) {
         var self = this;
 
         // Default plugin settings
         var defaults = {
-            afterLoaded: function() {
+            afterLoaded: function () {
                 this.addClass('bg-loaded');
             }
         };
@@ -275,13 +275,13 @@ jQuery(document).ready(function($) {
         var settings = $.extend({}, defaults, custom);
 
         // Loop through element
-        self.each(function() {
+        self.each(function () {
             var $this = $(this),
                 bgImgs = window.getComputedStyle($this.get(0), '::before').getPropertyValue('content').replace(/'/g, "").replace(/"/g, "").split(', ');
             $this.data('loaded-count', 0);
-            $.each(bgImgs, function(key, value) {
+            $.each(bgImgs, function (key, value) {
                 var img = value.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
-                $('<img/>').attr('src', img).load(function() {
+                $('<img/>').attr('src', img).load(function () {
                     $(this).remove(); // prevent memory leaks
                     $this.data('loaded-count', $this.data('loaded-count') + 1);
                     if ($this.data('loaded-count') >= bgImgs.length) {
@@ -293,6 +293,3 @@ jQuery(document).ready(function($) {
         });
     };
 })(jQuery);
-
-
-
